@@ -1,0 +1,27 @@
+[{
+        "icon": "https://webfollow.cc/logo.svg",
+        "title": "Vue 3",
+        "description": "Vue 3 是一个用于构建用户界面的渐进式框架",
+        "category": "前端",
+        "url": "https://vue3.com",
+        "lastBuildDate": "2024-02-01",
+        "item": [{
+            "title": "Vue 3 教程",
+            "link": "https://vue3.com/tutorial",
+            "description": "Vue 3 教程是一个介绍 Vue 3 的教程网站"
+        }]
+    },
+    {
+        "icon": "https://webfollow.cc/logo.svg",
+        "title": "React 18",
+        "description": "React 18 是一个用于构建用户界面的渐进式框架",
+        "category": "前端",
+        "url": "https://react18.com",
+        "lastBuildDate": "2024-02-01",
+        "item": [{
+            "title": "React 18 教程",
+            "link": "https://react18.com/tutorial",
+            "description": "React 18 教程是一个介绍 React 18 的教程网站"
+        }]
+    }
+]
