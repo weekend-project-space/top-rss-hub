@@ -1,20 +1,16 @@
 <template>
-  <div class="d-flex justify-space-between">
-    <v-text-field
-      placeholder="请输入关键词 可以是网址或网站名称"
-      variant="outlined"
-      density="compact"
-      class="mr-2"
-      v-model="keyword"
-    ></v-text-field>
-    <v-btn color="primary">搜索</v-btn>
-  </div>
   <v-card class="mx-auto">
-    <!-- <v-toolbar color="deep-purple-accent-2">
-      <v-btn icon="mdi-close"></v-btn>
-
-      <v-toolbar-title>过滤规则</v-toolbar-title>
-    </v-toolbar> -->
+    <v-toolbar>
+      <v-btn icon="mdi-home"></v-btn>
+      <v-toolbar-title>Top RSS Hub</v-toolbar-title>
+    </v-toolbar>
+    <v-card-title class="mt-5"
+      ><v-text-field
+        placeholder="请输入关键词 可以是网址或网站名称"
+        variant="outlined"
+        v-model="keyword"
+      ></v-text-field
+    ></v-card-title>
 
     <v-card-text>
       <h2 class="text-h6 mb-2">选择分类</h2>
@@ -32,7 +28,7 @@
       </v-chip-group>
     </v-card-text>
   </v-card>
-  <v-card v-if="feeds.length > 0" class="mt-5">
+  <v-card flat v-if="feeds.length > 0" class="mt-5">
     <div class="d-flex justify-end ma-2">
       <v-btn
         @click="exportOpml"
@@ -47,7 +43,6 @@
       <thead>
         <tr>
           <th class="text-left">名称</th>
-          <th class="text-left">描述</th>
           <th class="text-left">分类</th>
           <th class="text-left">链接</th>
           <th class="text-left">更新时间</th>
@@ -56,23 +51,31 @@
         </tr>
       </thead>
       <tbody>
-        <!-- 只渲染前100条 -->
         <tr v-for="item in feeds.slice(0, 100)" :key="item.name">
-          <td>
-            <a
-              class="d-flex align-center text-decoration-none"
-              :href="item.htmlUrl"
-              target="_blank"
-            >
-              <img width="20" :src="item.icon" alt="" class="mr-2" />
-              {{ item.title }}
-            </a>
+          <td class="d-flex align-center">
+            <img width="20" :src="item.icon" alt="" class="mr-2" />
+            <div>
+              <a
+                class="text-decoration-none"
+                :href="item.htmlUrl"
+                target="_blank"
+                v-text="item.title"
+              >
+              </a>
+              <small
+                class="text-truncate"
+                style="max-width: 300px; display: block"
+                v-text="item.description"
+                :title="item.description"
+              ></small>
+            </div>
           </td>
-          <td class="text-truncate" style="max-width: 300px">
-            {{ item.description }}
+          <td class="text-truncate" style="max-width: 100px">
+            {{ item.category }}
           </td>
-          <td style="width: 80px">{{ item.category }}</td>
-          <td>{{ item.url }}</td>
+          <td :title="item.url">
+            {{ item.url }}
+          </td>
           <td style="width: 200px">{{ item.lastBuildDate }}</td>
           <td>{{ item.qty }}</td>
           <td>
@@ -84,8 +87,10 @@
       </tbody>
     </v-table>
   </v-card>
-  <v-card class="mt-5" v-else>
-    <v-card-text class="d-flex justify-center mx-6">
+  <v-card flat class="mt-5" v-else>
+    <v-card-text class="mx-auto my-3">
+      <p>没有找到你想要的？</p>
+      <br />
       <a href="https://web2rss.cc"> 试试在 “web2rss”搜索 </a>
     </v-card-text>
   </v-card>

@@ -1,7 +1,7 @@
 <template>
   <v-responsive class="border rounded">
     <v-app>
-      <v-app-bar scroll-behavior="elevate" class="border-b" height="60">
+      <v-app-bar scroll-behavior="elevate" class="border-none" height="60">
         <template v-slot:prepend>
           <v-app-bar-nav-icon @click="rail = !rail"></v-app-bar-nav-icon>
         </template>
@@ -17,7 +17,11 @@
           </div>
         </v-app-bar-title>
       </v-app-bar>
-      <v-navigation-drawer :rail="rail" class="border-r">
+      <v-navigation-drawer
+        :rail="rail && !mobile"
+        :model-value="rail || !mobile"
+        class="border-none"
+      >
         <v-list density="compact" nav>
           <v-list-item
             prepend-icon="mdi-home-city"
@@ -47,7 +51,9 @@
 <script setup>
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import { useDisplay } from "vuetify";
 
+const { mobile } = useDisplay();
 const route = useRoute();
 const rail = ref(false);
 </script>

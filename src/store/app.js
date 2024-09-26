@@ -32,12 +32,10 @@ export const useAppStore = defineStore('app', {
       this.feeds = await res.json()
     },
     addLove(feed) {
-      // console.log('addLove', feed)
       this.loves.push(feed)
       localStorage.setItem('loves', JSON.stringify(this.loves))
     },
     removeLove(feed) {
-      // console.log('removeLove', feed)
       this.loves = this.loves.filter((item) => item.url !== feed.url)
       localStorage.setItem('loves', JSON.stringify(this.loves))
     }
@@ -45,9 +43,6 @@ export const useAppStore = defineStore('app', {
   getters: {
     cagetories: (state) => {
       return [...new Set(state.feeds.map((item) => item.category))]
-    },
-    lovesCagetories: (state) => {
-      return [...new Set(state.loves.map((item) => item.category))]
     }
   }
 

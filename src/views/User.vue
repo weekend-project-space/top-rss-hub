@@ -1,15 +1,15 @@
 <template>
   <v-card class="mx-auto">
-    <v-toolbar color="deep-purple-accent-2">
-      <v-toolbar-title>我的订阅</v-toolbar-title>
+    <v-toolbar>
+      <v-btn icon="mdi-account"></v-btn>
+      <v-toolbar-title>我的收藏</v-toolbar-title>
     </v-toolbar>
 
     <v-card-text>
       <h2 class="text-h6 mb-2">选择分类</h2>
-
       <v-chip-group v-model="calories" column multiple>
         <v-chip
-          v-for="category in store.lovesCagetories"
+          v-for="category in new Set(store.loves.map((item) => item.category))"
           :key="category"
           :value="category"
           text="Elevator"
@@ -20,22 +20,21 @@
       </v-chip-group>
     </v-card-text>
   </v-card>
-  <v-card class="mt-5">
+  <v-card flat class="mt-5">
     <div class="d-flex justify-end ma-2">
       <v-btn
         @click="exportOpml"
         variant="outlined"
         color="primary"
-        :disabled="store.loves.length === 0"
-        :title="'导出opml:' + store.loves.map((a) => a.title).join(',')"
-        >导出opml ({{ store.loves.length }})</v-btn
+        :disabled="feeds.length === 0"
+        :title="'导出opml:' + feeds.map((a) => a.title).join(',')"
+        >导出opml ({{ feeds.length }})</v-btn
       >
     </div>
     <v-table>
       <thead>
         <tr>
           <th class="text-left">名称</th>
-          <th class="text-left">描述</th>
           <th class="text-left">分类</th>
           <th class="text-left">链接</th>
           <th class="text-left">更新时间</th>
@@ -44,23 +43,31 @@
         </tr>
       </thead>
       <tbody>
-        <!-- 只渲染前100条 -->
         <tr v-for="item in feeds" :key="item.name">
-          <td>
-            <a
-              class="d-flex align-center text-decoration-none"
-              :href="item.htmlUrl"
-              target="_blank"
-            >
-              <img width="20" :src="item.icon" alt="" class="mr-2" />
-              {{ item.title }}
-            </a>
+          <td class="d-flex align-center">
+            <img width="20" :src="item.icon" alt="" class="mr-2" />
+            <div>
+              <a
+                class="text-decoration-none"
+                :href="item.htmlUrl"
+                target="_blank"
+                v-text="item.title"
+              >
+              </a>
+              <small
+                class="text-truncate"
+                style="max-width: 300px; display: block"
+                v-text="item.description"
+                :title="item.description"
+              ></small>
+            </div>
           </td>
-          <td class="text-truncate" style="max-width: 300px">
-            {{ item.description }}
+          <td class="text-truncate" style="max-width: 100px">
+            {{ item.category }}
           </td>
-          <td style="width: 80px">{{ item.category }}</td>
-          <td>{{ item.url }}</td>
+          <td :title="item.url">
+            {{ item.url }}
+          </td>
           <td style="width: 200px">{{ item.lastBuildDate }}</td>
           <td>{{ item.qty }}</td>
           <td>
@@ -84,7 +91,7 @@ const calories = ref([]);
 const keyword = ref("");
 
 const exportOpml = () => {
-  const opml = jsonToOpml(store.loves);
+  const opml = jsonToOpml(feeds.value);
   const blob = new Blob([opml], { type: "text/xml" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
