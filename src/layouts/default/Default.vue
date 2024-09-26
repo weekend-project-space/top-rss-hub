@@ -24,12 +24,14 @@
             title="首页"
             value="home"
             to="/"
+            :active="route.path === '/'"
           ></v-list-item>
           <v-list-item
             prepend-icon="mdi-account"
             title="我的"
             value="account"
             to="/account"
+            :active="route.path === '/account'"
           ></v-list-item>
         </v-list>
       </v-navigation-drawer>
@@ -44,6 +46,8 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
 const rail = ref(false);
 </script>

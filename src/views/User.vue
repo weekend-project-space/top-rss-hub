@@ -1,27 +1,15 @@
 <template>
-  <div class="d-flex justify-space-between">
-    <v-text-field
-      placeholder="请输入关键词 可以是网址或网站名称"
-      variant="outlined"
-      density="compact"
-      class="mr-2"
-      v-model="keyword"
-    ></v-text-field>
-    <v-btn color="primary">搜索</v-btn>
-  </div>
   <v-card class="mx-auto">
-    <!-- <v-toolbar color="deep-purple-accent-2">
-      <v-btn icon="mdi-close"></v-btn>
-
-      <v-toolbar-title>过滤规则</v-toolbar-title>
-    </v-toolbar> -->
+    <v-toolbar color="deep-purple-accent-2">
+      <v-toolbar-title>我的订阅</v-toolbar-title>
+    </v-toolbar>
 
     <v-card-text>
       <h2 class="text-h6 mb-2">选择分类</h2>
 
       <v-chip-group v-model="calories" column multiple>
         <v-chip
-          v-for="category in store.cagetories"
+          v-for="category in store.lovesCagetories"
           :key="category"
           :value="category"
           text="Elevator"
@@ -32,7 +20,7 @@
       </v-chip-group>
     </v-card-text>
   </v-card>
-  <v-card v-if="feeds.length > 0" class="mt-5">
+  <v-card class="mt-5">
     <div class="d-flex justify-end ma-2">
       <v-btn
         @click="exportOpml"
@@ -57,7 +45,7 @@
       </thead>
       <tbody>
         <!-- 只渲染前100条 -->
-        <tr v-for="item in feeds.slice(0, 100)" :key="item.name">
+        <tr v-for="item in feeds" :key="item.name">
           <td>
             <a
               class="d-flex align-center text-decoration-none"
@@ -84,25 +72,16 @@
       </tbody>
     </v-table>
   </v-card>
-  <v-card class="mt-5" v-else>
-    <v-card-text class="d-flex justify-center mx-6">
-      <a href="https://web2rss.cc"> 试试在 “web2rss”搜索 </a>
-    </v-card-text>
-  </v-card>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, computed } from "vue";
 import { useAppStore } from "@/store/app";
 import { jsonToOpml } from "@/utils/opmlUtils";
 
 const store = useAppStore();
 const calories = ref([]);
 const keyword = ref("");
-
-const fetchFeeds = async () => {
-  await store.fetchFeeds();
-};
 
 const exportOpml = () => {
   const opml = jsonToOpml(store.loves);
@@ -126,10 +105,6 @@ const toggleLove = (item) => {
   }
 };
 
-onMounted(async () => {
-  await fetchFeeds();
-});
-
 const feeds = computed(() => {
   const cagetories = new Set(calories.value);
   function f(item) {
@@ -139,7 +114,7 @@ const feeds = computed(() => {
       (item.url && item.url.includes(keyword.value))
     );
   }
-  return store.feeds.filter((item) =>
+  return store.loves.filter((item) =>
     cagetories.size == 0
       ? keyword.value == "" || f(item)
       : cagetories.has(item.category) && f(item)
