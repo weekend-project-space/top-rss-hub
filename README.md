@@ -1,4 +1,4 @@
-# essentials
+# top-rss-hub
 
 ## Project setup
 
