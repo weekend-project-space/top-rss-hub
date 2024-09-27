@@ -51,8 +51,9 @@
             <img width="20" :src="item.icon" alt="" class="mr-2" />
             <div>
               <a
+                title="在webfollow查看"
                 class="text-decoration-none"
-                :href="item.htmlUrl"
+                :href="feed2follow(item)"
                 target="_blank"
                 v-text="item.title"
               >
@@ -97,7 +98,7 @@
 import { ref, onMounted, computed } from "vue";
 import { useAppStore } from "@/store/app";
 import { jsonToOpml } from "@/utils/opmlUtils";
-
+import { feed2follow } from "@/utils/feed2follow";
 const store = useAppStore();
 const calories = ref([]);
 const keyword = ref("");

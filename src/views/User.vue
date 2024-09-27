@@ -49,7 +49,7 @@
             <div>
               <a
                 class="text-decoration-none"
-                :href="item.htmlUrl"
+                :href="feed2follow(item)"
                 target="_blank"
                 v-text="item.title"
               >
@@ -85,10 +85,10 @@
 import { ref, computed } from "vue";
 import { useAppStore } from "@/store/app";
 import { jsonToOpml } from "@/utils/opmlUtils";
+import { feed2follow } from "@/utils/feed2follow";
 
 const store = useAppStore();
 const calories = ref([]);
-const keyword = ref("");
 
 const exportOpml = () => {
   const opml = jsonToOpml(feeds.value);
@@ -114,17 +114,8 @@ const toggleLove = (item) => {
 
 const feeds = computed(() => {
   const cagetories = new Set(calories.value);
-  function f(item) {
-    return (
-      (item.title && item.title.includes(keyword.value)) ||
-      (item.description && item.description.includes(keyword.value)) ||
-      (item.url && item.url.includes(keyword.value))
-    );
-  }
   return store.loves.filter((item) =>
-    cagetories.size == 0
-      ? keyword.value == "" || f(item)
-      : cagetories.has(item.category) && f(item)
+    cagetories.size == 0 ? true : cagetories.has(item.category)
   );
 });
 </script>
