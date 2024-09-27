@@ -22,7 +22,7 @@
         <template v-slot:append>
           <v-btn
             icon
-            href="https://github.com/weekend-project-space/top-rss-list"
+            href="https://github.com/weekend-project-space/top-rss-hub"
           >
             <v-icon>mdi-github</v-icon>
           </v-btn>
