@@ -1,10 +1,12 @@
 <template>
   <v-responsive class="border rounded">
-    <v-app>
-      <v-app-bar scroll-behavior="elevate" class="border-none" height="60">
+    <v-app
+      >>
+      <v-app-bar scroll-behavior="elevate" height="60">
         <template v-slot:prepend>
           <v-app-bar-nav-icon @click="rail = !rail"></v-app-bar-nav-icon>
         </template>
+
         <v-app-bar-title>
           <div class="d-flex align-center">
             <img
@@ -14,8 +16,17 @@
               class="mr-2"
             />
             Top RSS Hub
-          </div>
-        </v-app-bar-title>
+          </div></v-app-bar-title
+        >
+
+        <template v-slot:append>
+          <v-btn
+            icon
+            href="https://github.com/weekend-project-space/top-rss-list"
+          >
+            <v-icon>mdi-github</v-icon>
+          </v-btn>
+        </template>
       </v-app-bar>
       <v-navigation-drawer
         :rail="rail && !mobile"

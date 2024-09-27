@@ -1,9 +1,5 @@
 <template>
-  <v-card class="mx-auto">
-    <v-toolbar>
-      <v-btn icon="mdi-home"></v-btn>
-      <v-toolbar-title>Top RSS Hub</v-toolbar-title>
-    </v-toolbar>
+  <v-card flat class="mx-auto">
     <v-card-title class="mt-5"
       ><v-text-field
         placeholder="请输入关键词 可以是网址或网站名称"
@@ -20,7 +16,6 @@
           v-for="category in store.cagetories"
           :key="category"
           :value="category"
-          text="Elevator"
           variant="outlined"
           filter
           >{{ category }}</v-chip
@@ -50,7 +45,7 @@
           <th class="text-left">操作</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="relative">
         <tr v-for="item in feeds.slice(0, 100)" :key="item.name">
           <td class="d-flex align-center">
             <img width="20" :src="item.icon" alt="" class="mr-2" />
@@ -73,13 +68,15 @@
           <td class="text-truncate" style="max-width: 100px">
             {{ item.category }}
           </td>
+
           <td :title="item.url">
             {{ item.url }}
           </td>
-          <td style="width: 200px">{{ item.lastBuildDate }}</td>
+          <td>{{ item.lastBuildDate }}</td>
           <td>{{ item.qty }}</td>
-          <td>
-            <v-btn variant="outlined" size="small" @click="toggleLove(item)">
+
+          <td style="position: absolute; right: 0">
+            <v-btn size="small" @click="toggleLove(item)">
               {{ isLoved(item) ? "已收藏" : "收藏" }}
             </v-btn>
           </td>
@@ -104,7 +101,6 @@ import { jsonToOpml } from "@/utils/opmlUtils";
 const store = useAppStore();
 const calories = ref([]);
 const keyword = ref("");
-
 const fetchFeeds = async () => {
   await store.fetchFeeds();
 };

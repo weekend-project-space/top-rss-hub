@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto">
+  <v-card flat class="mx-auto">
     <v-toolbar>
       <v-btn icon="mdi-account"></v-btn>
       <v-toolbar-title>我的收藏</v-toolbar-title>
@@ -70,8 +70,8 @@
           </td>
           <td style="width: 200px">{{ item.lastBuildDate }}</td>
           <td>{{ item.qty }}</td>
-          <td>
-            <v-btn variant="outlined" size="small" @click="toggleLove(item)">
+          <td style="position: absolute; right: 0">
+            <v-btn size="small" @click="toggleLove(item)">
               {{ isLoved(item) ? "已收藏" : "收藏" }}
             </v-btn>
           </td>
